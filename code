@@ -1,0 +1,30 @@
+import random
+
+players = 4
+c = [0] * players  # Turn count for each player
+b = [0] * players  # Position for each player
+snakes = {11: 6, 37: 32, 49: 44, 67: 62, 83: 78, 99: 94}  # Snake positions and destinations
+ladders = {3: 22, 8: 30, 28: 55, 58: 75, 75: 96}  # Ladder positions and destinations
+
+winner = None  # To store the index of the winning player
+
+while winner is None:  # Game continues until a winner is found
+    for i in range(players):  # Each player takes turns
+        if b[i] >= 100:  # Skip players who already reached 100
+            continue
+        c[i] += 1  # Increment the turn count for the player
+        a = random.randint(1, 6)  # Roll the dice
+        if b[i] + a > 100:  # Skip the move if it exceeds 100
+            continue
+        b[i] += a  # Update the player's position
+        if b[i] in snakes:  # Check if the player landed on a snake
+            b[i] = snakes[b[i]]  # Move down to the snake's destination
+        elif b[i] in ladders:  # Check if the player landed on a ladder
+            b[i] = ladders[b[i]]  # Move up to the ladder's destination
+        if b[i] >= 100:  # Check if the player reached 100
+            winner = i  # Declare this player as the winner
+            break  # Exit the loop as the game ends
+
+# Print results
+print("Turns taken by each player:", c)
+print("The winner is Player", winner + 1, "in", c[winner], "turns!")
